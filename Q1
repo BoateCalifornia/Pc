@@ -1,0 +1,64 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RevisaoQ1
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            // criando as variaveis que serao utilizadas 
+            
+            double valor = 0;
+            double maior = 0;
+            double menor = 0;
+            double soma = 0;
+            double media = 0;
+            int quantidade = 0;
+            
+            do
+            {
+                Console.WriteLine("Digite o preço do produto( ou digite -1): ");
+                Convert.ToDouble(Console.ReadLine());
+
+                //calcula a quantidade 
+                if (quantidade == 0)
+                {
+                    maior = valor;
+                    menor = valor;
+                } 
+                else
+                {
+                    if (valor > maior)
+                    {
+                        maior = valor;
+                    }
+                    if (valor < menor && valor > 0)
+                    {
+                        menor = valor;
+                    }
+                        
+                    
+                }                
+                
+                if (valor != -1)
+                {
+                    soma += valor;
+                    quantidade++;
+                }
+                
+
+
+            } while (valor != -1);
+
+            media = soma / quantidade;
+            
+            Console.WriteLine("Maior preço:" + maior);
+            Console.WriteLine("Menor preço:" + menor);
+            Console.WriteLine("Media dos preços:" + media);
+        }
+    }
+}

@@ -1,0 +1,164 @@
+using System;
+
+class Produto {
+    public int Codigo { get; set; }
+    public string Descricao { get; set; }
+    public double Valor { get; set; }
+    public int QuantidadeEstoque { get; set; }
+}
+
+class Venda {
+    public int CodigoProduto { get; set; }
+    public int CodigoFuncionario { get; set; }
+    public int QuantidadeVendida { get; set; }
+    public double ValorVenda { get; set; }
+}
+
+class Program {
+    static Produto[] produtos = new Produto[100];
+    static Venda[] vendas = new Venda[100];
+    static int totalProdutos = 0;
+    static int totalVendas = 0;
+
+    static void Main(string[] args) {
+        int opcao;
+        do {
+            Console.WriteLine("\n=========================================");
+            Console.WriteLine("1 - Cadastrar produtos");
+            Console.WriteLine("2 - Realizar uma venda");
+            Console.WriteLine("3 - Relatório de vendas");
+            Console.WriteLine("4 - Relatório de vendas por funcionários");
+            Console.WriteLine("0 - Sair");
+            Console.WriteLine("=========================================");
+            Console.Write("Escolha uma opção: ");
+            opcao = int.Parse(Console.ReadLine());
+
+            switch (opcao) {
+                case 1:
+                    CadastrarProduto();
+                    break;
+                case 2:
+                    RealizarVenda();
+                    break;
+                case 3:
+                    RelatorioVendas();
+                    break;
+                case 4:
+                    RelatorioVendasPorFuncionario();
+                    break;
+                case 0:
+                    Console.WriteLine("Saindo do sistema...");
+                    break;
+                default:
+                    Console.WriteLine("Opção inválida!");
+                    break;
+            }
+        } while (opcao != 0);
+    }
+
+    static void CadastrarProduto() {
+        Console.WriteLine("\n=== Cadastro de Produto ===");
+        Console.Write("Código do produto: ");
+        int codigo = int.Parse(Console.ReadLine());
+
+        // Verifica se o código já existe
+        for (int i = 0; i < totalProdutos; i++) {
+            if (produtos[i].Codigo == codigo) {
+                Console.WriteLine("Código já cadastrado!");
+                return;
+            }
+        }
+
+        produtos[totalProdutos] = new Produto();
+        produtos[totalProdutos].Codigo = codigo;
+        Console.Write("Descrição do produto: ");
+        produtos[totalProdutos].Descricao = Console.ReadLine();
+        Console.Write("Valor do produto: ");
+        produtos[totalProdutos].Valor = double.Parse(Console.ReadLine());
+        Console.Write("Quantidade em estoque: ");
+        produtos[totalProdutos].QuantidadeEstoque = int.Parse(Console.ReadLine());
+        totalProdutos++;
+        Console.WriteLine("Produto cadastrado com sucesso!");
+    }
+
+    static void RealizarVenda() {
+        Console.WriteLine("\n=== Realizar Venda ===");
+        Console.Write("Código do produto: ");
+        int codigoProduto = int.Parse(Console.ReadLine());
+        Console.Write("Código do funcionário: ");
+        int codigoFuncionario = int.Parse(Console.ReadLine());
+        Console.Write("Quantidade vendida: ");
+        int quantidade = int.Parse(Console.ReadLine());
+
+        // Busca o produto
+        int indiceProduto = -1;
+        for (int i = 0; i < totalProdutos; i++) {
+            if (produtos[i].Codigo == codigoProduto) {
+                indiceProduto = i;
+                break;
+            }
+        }
+
+        if (indiceProduto == -1) {
+            Console.WriteLine("Produto não encontrado!");
+            return;
+        }
+
+        if (produtos[indiceProduto].QuantidadeEstoque < quantidade) {
+            Console.WriteLine("Estoque insuficiente!");
+            return;
+        }
+
+        // Registra a venda
+        vendas[totalVendas] = new Venda();
+        vendas[totalVendas].CodigoProduto = codigoProduto;
+        vendas[totalVendas].CodigoFuncionario = codigoFuncionario;
+        vendas[totalVendas].QuantidadeVendida = quantidade;
+        vendas[totalVendas].ValorVenda = quantidade * produtos[indiceProduto].Valor;
+
+        // Atualiza estoque
+        produtos[indiceProduto].QuantidadeEstoque -= quantidade;
+        totalVendas++;
+        Console.WriteLine("Venda registrada com sucesso!");
+    }
+
+    static void RelatorioVendas() {
+        Console.WriteLine("\n=== Relatório de Vendas ===");
+        double totalGeral = 0;
+
+        for (int i = 0; i < totalVendas; i++) {
+            Console.WriteLine($"Venda {i + 1}:");
+            Console.WriteLine($"Código do Produto: {vendas[i].CodigoProduto}");
+            Console.WriteLine($"Código do Funcionário: {vendas[i].CodigoFuncionario}");
+            Console.WriteLine($"Valor da Venda: R${vendas[i].ValorVenda:F2}");
+            Console.WriteLine("-------------------");
+            totalGeral += vendas[i].ValorVenda;
+        }
+
+        Console.WriteLine($"Valor Total das Vendas: R${totalGeral:F2}");
+    }
+
+    static void RelatorioVendasPorFuncionario() {
+        Console.WriteLine("\n=== Relatório de Vendas por Funcionário ===");
+        Console.Write("Digite o código do funcionário: ");
+        int codigoFuncionario = int.Parse(Console.ReadLine());
+
+        double totalVendasFuncionario = 0;
+        Console.WriteLine($"\nVendas do Funcionário {codigoFuncionario}:");
+
+        for (int i = 0; i < totalVendas; i++) {
+            if (vendas[i].CodigoFuncionario == codigoFuncionario) {
+                Console.WriteLine($"Venda {i + 1}:");
+                Console.WriteLine($"Código do Produto: {vendas[i].CodigoProduto}");
+                Console.WriteLine($"Código do Funcionário: {vendas[i].CodigoFuncionario}");
+                Console.WriteLine($"Valor da Venda: R${vendas[i].ValorVenda:F2}");
+                Console.WriteLine("-------------------");
+                totalVendasFuncionario += vendas[i].ValorVenda;
+            }
+        }
+
+        double comissao = totalVendasFuncionario * 0.10;
+        Console.WriteLine($"Valor Total das Vendas: R${totalVendasFuncionario:F2}");
+        Console.WriteLine($"Comissão (10%): R${comissao:F2}");
+    }
+}

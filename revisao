@@ -1,0 +1,164 @@
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Reflection.Emit;
+
+static void Main(string[] args)
+{
+    Questao1();
+    Questao2();
+    Questao5();
+    Questao7();
+    Questao8();
+    Questao9();
+    Questao10();
+}
+
+static void Questao1()
+{
+    int[] vetor1 = new int[10];
+    int[] vetor2 = new int[10];
+
+    for (int i = 0; i < 10; i++)
+    {
+        Console.WriteLine("Digite os numeros: ");
+        vetor1[i] = Convert.ToInt32(Console.ReadLine());
+    }
+    for (int i = 0; i < 10; i++)
+    {
+        if (i < 9)
+        {
+            vetor2[i] = vetor1[i + 1] * vetor1[i];
+        }
+        else
+        {
+            vetor2[i] = vetor1[i];
+        }
+    }
+    for (int i = 0; i < 10; i++)
+    {
+        Console.WriteLine(vetor2[i]);
+    }
+}
+static void Questao2()
+{
+    int[] vetor1 = new int[5];
+    int[] vetor2 = new int[5];
+    int c = 4;
+
+    for (int i = 0; i < vetor2.Length; i++)
+    {
+        Console.WriteLine("Digite os numeros: ");
+        vetor1[i] = Convert.ToInt32(Console.ReadLine());
+    }
+    for (int i = 0; i < vetor2.Length; i++)
+    {
+        vetor2[i] = vetor1[c];
+        c--;
+    }
+    for (int i = 0; i < vetor2.Length; i++)
+    {
+        Console.WriteLine(vetor2[i]);
+    }
+}
+static void Questao5()
+{
+    List<string> cu = new List<string>();
+
+    cu.Add("Branco");
+    cu.Add("Vermelho");
+    cu.Add("Amarelo");
+    cu.Add("Azul");
+    cu.Add("Rosa");
+
+    cu.Remove("Branco");
+    cu.Remove("Vermelho");
+    cu.Remove("Amarelo");
+
+    cu.Add("Branco");
+    cu.Add("Vermelho");
+    cu.Add("Amarelo");
+
+    foreach (string item in cu)
+    {
+        Console.WriteLine(item);
+    }
+}
+static void Questao7()
+{
+    Stack<string> p = new Stack<string>();
+
+    p.Push("prato1");
+    p.Push("prato2");
+    p.Push("prato3");
+    p.Push("prato4");
+    p.Push("prato5");
+
+    p.Pop();
+    p.Pop();
+
+    p.Push("prato6");
+
+    foreach (String item in p)
+    {
+        Console.WriteLine(item);
+    }
+}
+static void Questao8()
+{
+    Stack<string> pa = new Stack<string>();
+    Stack<string> pb = new Stack<string>();
+    Stack<string> pc = new Stack<string>();
+
+    pa.Push("bloco3");
+    pa.Push("bloco2");
+    pa.Push("bloco1");
+
+    pc.Push(pa.Pop());
+    pc.Push(pa.Pop());
+
+    pb.Push(pa.Pop());
+    pb.Push(pc.Pop());
+    pb.Push(pc.Pop());
+
+    foreach (String item in pb)
+    {
+        Console.WriteLine(item);
+    }
+
+}
+static void Questao9()
+{
+    List<string> f = new List<string>();
+
+    f.Add("pessoa1");
+    f.Add("pessoa2");
+    f.Add("pessoa3");
+    f.Add("pessoa4");
+    f.Add("pessoa5");
+
+    f.Remove("pessoa1");
+    f.Remove("pessoa2");
+
+    f.Add("pessoa6");
+
+    foreach (string item in f)
+    {
+        Console.WriteLine(item);
+    }
+
+}
+static void Questao10()
+{
+    List<int> f1 = new List<int>();
+    List<int> f2 = new List<int>();
+
+    f1.Add(1);
+    f1.Add(2);
+    f1.Add(3);
+    f1.Add(4);
+
+    f2.Add(5);
+    f2.Add(6);
+    f2.Add(7);
+    f2.Add(8); 
+}
